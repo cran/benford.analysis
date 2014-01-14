@@ -1,0 +1,8 @@
+export(benford)
+export(duplicatesTable)
+export(getDuplicates)
+export(getSuspects)
+export(suspectsTable)
+S3method(plot,Benford)
+S3method(print,Benford)
+import(data.table)
