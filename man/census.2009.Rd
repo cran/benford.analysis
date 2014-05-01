@@ -4,14 +4,13 @@
 \title{Population data of Towns and Cities of the US - 2009}
 \format{A data frame with 19509 rows and 3 variables}
 \description{
-  A dataset containing the population of towns and cities
-  of the United States, as of july of 2009.
+A dataset containing the population of towns and cities of
+the United States, as of july of 2009.
 }
 \references{
-  Nigrini, M. J. (2012). Benford's Law: Application for
-  Forensic Accounting, Auditing and Fraud Detection. Wiley
-  and Sons: New Jersey.
+Nigrini, M. J. (2012). Benford's Law: Application for
+Forensic Accounting, Auditing and Fraud Detection. Wiley
+and Sons: New Jersey.
 }
 \keyword{dataset}
-\keyword{datasets}
 

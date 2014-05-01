@@ -2,10 +2,10 @@
 \alias{getSuspects}
 \title{Gets the 'suspicious' observations according to Benford's Law}
 \usage{
-  getSuspects(bfd, data, by="absolute.diff", how.many=2)
+getSuspects(bfd, data, by="absolute.diff", how.many=2)
 }
 \arguments{
-  \item{bfd}{an object of class "benford". See
+  \item{bfd}{an object of class "Benford". See
   \code{\link{benford}}.}
 
   \item{data}{the original data used for the benford
@@ -19,11 +19,11 @@
   or'absolute.diff'.}
 }
 \value{
-  The 'suspicious' observations from the original data.
+The 'suspicious' observations from the original data.
 }
 \description{
-  It gets the original data from the 'suspicious' digits
-  groups according to benford analysis.
+It gets the original data from the 'suspicious' digits
+groups according to benford analysis.
 }
 \examples{
 data(lakes.perimeter) #gets data

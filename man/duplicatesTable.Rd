@@ -2,18 +2,18 @@
 \alias{duplicatesTable}
 \title{Shows the duplicates of the data}
 \usage{
-  duplicatesTable(bfd)
+duplicatesTable(bfd)
 }
 \arguments{
-  \item{bfd}{an object of class "benford". See
+  \item{bfd}{an object of class "Benford". See
   \code{\link{benford}}.}
 }
 \value{
-  A data frame with 2 variables: number and duplicates.
+A data frame with 2 variables: number and duplicates.
 }
 \description{
-  It creates a data frame with the duplicates in decreasing
-  order.
+It creates a data frame with the duplicates in decreasing
+order.
 }
 \examples{
 data(census.2009) #gets data

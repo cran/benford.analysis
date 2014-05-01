@@ -2,8 +2,7 @@
 \alias{plot.Benford}
 \title{Plot method for Benford Analysis}
 \usage{
-  \method{plot}{Benford}(x,except=c("mantissa","abs diff"),
-    multiple=TRUE, ...)
+\method{plot}{Benford}(x,except=c("mantissa","abs diff"), multiple=TRUE, ...)
 }
 \arguments{
   \item{x}{a "Benford" object}
@@ -22,9 +21,9 @@
   functions,}
 }
 \value{
-  Plots the Benford object.
+Plots the Benford object.
 }
 \description{
-  The \code{plot} method for "Benford" objects.
+The \code{plot} method for "Benford" objects.
 }
 

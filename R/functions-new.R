@@ -20,13 +20,27 @@
 ##' 
 ##' @examples
 ##' data(corporate.payment) #gets data
-##' cp <- benford(corporate.payment$Amount) #generates benford object
+##' cp <- benford(corporate.payment$Amount, 2, sign="both") #generates benford object
 ##' cp #prints 
 ##' plot(cp) #plots
-##' suspectsTable(cp) #prints the digits by decreasing order of discrepancies
-##' suspects <- getSuspects(cp, corporate.payment) #gets suspicious observations 
+##' 
+##' head(suspectsTable(cp),10) #prints the digits by decreasing order of discrepancies
+##' 
+##' #gets observations of the 2 most suspicious groups
+##' suspects <- getSuspects(cp, corporate.payment, how.many=2) 
+##' 
 ##' duplicatesTable(cp) #prints the duplicates by decreasing order
-##' duplicates <- getDuplicates(cp, corporate.payment) #gets the duplicates
+##' 
+##' #gets the observations of the 2 values with most duplicates
+##' duplicates <- getDuplicates(cp, corporate.payment,how.many=2) 
+##' 
+##' MAD(cp) #gets the Mean Absolute Deviation
+##' 
+##' chisq(cp) #gets the Chi-squared test
+##' 
+##' #gets observations starting with 50 or 99
+##' digits_50_and_99 <- getDigits(cp, corporate.payment, digits=c(50, 99)) 
+##' 
 ##' @references Alexander, J. (2009). Remarks on the use of Benford's Law. Working Paper, Case Western Reserve University, Department of Mathematics and Cognitive Science.
 ##' \cr\cr Berger, A. and Hill, T. (2011). A basic theory of Benford's Law. Probability Surveys, 8, 1-126.
 ##' \cr\cr Hill, T. (1995). A statistical derivation of the significant-digit law. Statistical Science, 10(4), 354-363.
@@ -44,6 +58,8 @@ NULL
 ##' @description This function validates a dataset using Benford's Law.
 ##' Its main purposes are to find out where the dataset deviates from Benford's Law and 
 ##' to identify suspicious data that need further verification. 
+##' 
+##' For a more complete example, see the package help at \link{benford.analysis}.
 ##' @usage
 ##' benford(data, number.of.digits = 2, sign = "positive", discrete=TRUE, round=3)
 ##' @param data a numeric vector.
@@ -53,7 +69,7 @@ NULL
 ##' respectively. For large datasets with both positive and negative numbers, 
 ##' it is usually recommended to perform a separate analysis for each group,
 ##' for the incentives to manipulate the numbers are usually different.
-##' @param discrete most real data -like population numbers or accounting data - are discrete, so 
+##' @param discrete most real data - like population numbers or accounting data - are discrete, so 
 ##' the default is TRUE. This paramater sets rounding to the differences of the ordered data to avoid floating point number
 ##' errors in the second order distribution, that usually occurs when data is discrete
 ##' and the ordered numbers are very close to each other. If your data is continuous
@@ -150,6 +166,7 @@ benford <- function(data, number.of.digits = 2, sign = "positive", discrete=TRUE
   ### chi-squared test
   chisq <- sum(squared.diff)
   names(chisq) <- "X-squared"
+  
   df <- length(benford.digits)-1
   names(df) <- "df"
   chisq.p.value <- pchisq(chisq, df, lower.tail=FALSE)
@@ -193,7 +210,10 @@ benford <- function(data, number.of.digits = 2, sign = "positive", discrete=TRUE
   distortion.factor <- DF(empirical.distribution$data)  
   
   ## recovering the lines of the numbers
-  lines <- which(data %in% empirical.distribution$data)
+  if (sign == "positive") {lines <- which(data>0 & !is.na(data))} 
+  if (sign == "negative") {lines <- which(data<0 & !is.na(data))}
+  if (sign == "both")     {lines <- which(data!=0 & !is.na(data))}
+  #lines <- which(data %in% empirical.distribution$data)
   
   ## output
   output <- list(info = list(data.name= data.name,

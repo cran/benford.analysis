@@ -2,7 +2,7 @@
 \alias{print.Benford}
 \title{Print method for Benford Analysis}
 \usage{
-  \method{print}{Benford}(x, how.many=5, ...)
+\method{print}{Benford}(x, how.many=5, ...)
 }
 \arguments{
   \item{x}{a "Benford" object.}
@@ -14,9 +14,9 @@
   functions.}
 }
 \value{
-  Prints the Benford object.
+Prints the Benford object.
 }
 \description{
-  The \code{print} method for "Benford" objects.
+The \code{print} method for "Benford" objects.
 }
 

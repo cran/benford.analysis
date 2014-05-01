@@ -27,6 +27,34 @@ mantissa.arc.test <- function(data){ #data must be the mantissa of the log10
   return(list(L2=L2, p.value=p.value))
 }
 
+
+
+
+#' @title Extracts the leading digits from the data
+#' @description It extracts the leading digits from the data.
+#' 
+#'This function is used by the main function of the package \code{\link{benford}} to extract the 
+#'leading digits of the data.
+#' @usage
+#' 
+#' extract.digits(data, number.of.digits = 2, 
+#'                sign="positive", second.order = FALSE, discrete=TRUE, round=3)
+#' @param data a numeric vector. 
+#' @param number.of.digits how many first digits to analyse .
+#' @param sign  The default value for sign is "positive" and it analyzes only data greater than zero. 
+#' There are also the options "negative" and "both" that will analyze only negative values or both positive and negative values of the data,
+#' respectively. For large datasets with both positive and negative numbers, 
+#' it is usually recommended to perform a separate analysis for each group,
+#' for the incentives to manipulate the numbers are usually different.
+#' @param second.order If TRUE, the function will extract the first digits of the second order distribution.
+#' @param discrete Most real data - like population numbers or accounting data - are discrete, so 
+#' the default is TRUE. This paramater sets rounding to the differences of the ordered data to avoid floating point number
+#' errors in the second order distribution, that usually occurs when data is discrete
+#' and the ordered numbers are very close to each other. If your data is continuous
+#' (like a simulated lognormal) you should run with discrete = FALSE. 
+#' @param round it defines the number of digits that the rounding will use if discrete = TRUE and second.order = TRUE.
+#' @return A data.frame with the data and the first digits.
+#' @export
 extract.digits <- function (data, number.of.digits = 2, sign="positive", second.order = FALSE, discrete=TRUE, round=3) {
   
   if(class(data)!="numeric"){stop("Data must be a numeric vector")}
@@ -48,6 +76,19 @@ extract.digits <- function (data, number.of.digits = 2, sign="positive", second.
     data.digits = trunc((10^((floor(log10(positives))*-1)+number.of.digits-1))*positives)))
 }
 
+
+#' @title Probability of a digit sequence
+#' @description It calculates the probability of a digit sequence "d".
+#' @usage
+#' 
+#' p.these.digits(d)
+#' @param d a digit sequence, like 1234 ou 999999.
+#' @return The probability of the sequence d.
+#' @examples
+#' p.these.digits(1) # 0.30103
+#' p.these.digits(11) # 0.03778856
+#' p.these.digits(999999) # 4.342947e-07
+#' @export 
 p.these.digits <- function(d){
   
   if (class(d)!="numeric" & class(d)!="integer") stop ("d must be numeric or integer")
@@ -57,13 +98,32 @@ p.these.digits <- function(d){
   return(prob)
 }
 
+
+#' @title Probability of a digit at the nth position
+#' @description It calculates the probability of digit "d" at the "n"th position.
+#' @usage
+#' 
+#' p.this.digit.at.n(d,n)
+#' @param d a digit from 0 to 9 (except at position n=1, where d cannot be 0, it wil give you NA).
+#' @param n the nth position.
+#' @return The probability of d at position n.
+#' @examples
+#' p.this.digit.at.n(1,1) # 0.30103
+#' p.this.digit.at.n(1,2) # 0.1138901
+#' p.this.digit.at.n(9,3) # 0.09826716
+#' matrix <- as.data.frame(round(sapply(1:4, function(x) sapply(0:9,p.this.digit.at.n,n=x)),5))
+#' names(matrix) <- paste0("n=",1:4)
+#' rownames(matrix) <- paste0("d=",0:9)
+#' matrix # a table with the probabilities of digits 0 to 9 in positions 1 to 4.
+#' @export 
 p.this.digit.at.n <- function(d,n){
   if (d<0) d <- d*(-1)
+  if (d==0 & n==1) return(NA)
   n1 <- strsplit(as.character(d), "")[[1]]
   n1 <- length(n1)
   if (n1>1) stop("d must have only 1 digit. This function evaluates 1 digit at position n")
-  if (class(d)!="numeric") stop ("d must be numeric")
-  if (class(n)!="numeric") stop ("d must be numeric")
+  if (class(d)!="numeric" & class(d)!="integer") stop ("d must be numeric or integer")
+  if (class(n)!="numeric" & class(n)!="integer") stop ("n must be numeric or integer")
   if (n<1) stop ("n must be greater than 1")
   if (n==1) return(log10(1+1/d))
   sum = 0

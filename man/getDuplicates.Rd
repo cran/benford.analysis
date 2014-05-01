@@ -2,10 +2,10 @@
 \alias{getDuplicates}
 \title{Gets the duplicates from data}
 \usage{
-  getDuplicates(bfd, data, how.many=2)
+getDuplicates(bfd, data, how.many=2)
 }
 \arguments{
-  \item{bfd}{an object of class "benford". See
+  \item{bfd}{an object of class "Benford". See
   \code{\link{benford}}.}
 
   \item{data}{the original data used for the benford
@@ -14,10 +14,10 @@
   \item{how.many}{how many groups of duplicates to get.}
 }
 \value{
-  The duplicates from the original data.
+The duplicates from the original data.
 }
 \description{
-  It gets the duplicates from the original data.
+It gets the duplicates from the original data.
 }
 \examples{
 data(census.2000_2010) #gets data
