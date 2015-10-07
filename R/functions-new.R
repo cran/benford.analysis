@@ -281,6 +281,10 @@ benford <- function(data, number.of.digits = 2, sign = "positive", discrete=TRUE
 ##' @S3method plot Benford
 ##' 
 ##' @method plot Benford
+##' @importFrom graphics abline axis barplot legend lines par plot
+##' @importFrom stats pchisq var
+##' @importFrom utils head
+##' @importFrom stats setNames
 plot.Benford<- function(x, except=c("mantissa","abs diff"), multiple=TRUE ,...){
   
   old.par <- par(no.readonly=TRUE)
@@ -357,7 +361,11 @@ print.Benford <- function(x,how.many=5,...){
   
   cat("\n\nMantissa: \n")
   cat("\n")
-  print(sapply(x[["mantissa"]][,values], round,2))
+  pretty_print <- x$mantissa
+  pretty_print$statistic <- gsub("Mantissa|\\s", "", pretty_print$statistic)
+  pretty_print <- setNames(pretty_print, c("Statistic", "Value"))
+  print.data.frame(pretty_print, row.names = FALSE, digits = 2)
+  cat("\n")
   
   cat("\nThe", how.many, "largest deviations: \n")
   cat("\n")
