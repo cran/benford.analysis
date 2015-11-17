@@ -7,6 +7,8 @@ test_that("Corporate Payment 1 digit, only >=10",
             bfd1 <- benford(cp,1)
             expect_that(bfd1$info$n.second.order,equals(64578))
             expect_that(MAD(bfd1), equals(0.01464, tolerance=1e-03))
+            # check if object did not change
+            expect_that(bfd1, equals(benford(cp,1)))
           }
           )
    
@@ -23,6 +25,8 @@ test_that("Corporate Payment 2 digits, only >=10",
                                  duplicates = c(6022,2264,1185,1056,1018,976))
             d.data <- as.data.frame(head(duplicatesTable(bfd2)))
             expect_that(d.data, equals(d.test))
+            # check if object did not change
+            expect_that(bfd2, equals(benford(cp, 2)))
           }
           )
       
@@ -33,6 +37,8 @@ test_that("Census 2009 data, 2 digits, only >=10",
            bfd.census <- benford(pop, 2)
            expect_that(dfactor(bfd.census), equals(0.74, tolerance=1e-03))
            expect_that(round(chisq(bfd.census)$statistic),is_equivalent_to(108))
+           # check if object did not change
+           expect_that(bfd.census, equals(benford(pop, 2)))
           }
            )
 
@@ -49,10 +55,13 @@ test_that("Negative numbers, simulated log-normal *(-1)",
                     class = c("data.table", "data.frame"))
           mant <- mantissa(bfd)
           expect_that(test, equals(mant))
+          
+          # check if object did not change
+          expect_that(bfd, equals( benford(data, sign="negative")))
          }
 )
           
-test_that("Both signs, simulated log-normal, plots and print",
+test_that("Both signs, simulated log-normal and plots",
           {
             set.seed(1)
             data <- rlnorm(1000, 10, 10)
@@ -60,7 +69,6 @@ test_that("Both signs, simulated log-normal, plots and print",
             bfd <- benford(data, sign="both", discrete = FALSE)
             plot(bfd, "none")
             expect_error(plot(bfd, except = "xxx"))
-            ?plot.Benford
             plot(bfd, except=c("mantissa","abs diff", "second order") )
             plot(bfd, except=c("mantissa","abs diff", "second order", "summation") )
             plot(bfd, except=c("mantissa","abs diff", "second order", "summation", 
@@ -68,6 +76,19 @@ test_that("Both signs, simulated log-normal, plots and print",
             plot(bfd, except=c("mantissa","abs diff", "second order", "summation", 
                                "chi square", "ex summation"))
             
+            # check if object did not change
+            expect_that(bfd, equals(benford(data, sign="both", discrete = FALSE)))
+          }
+)
+
+
+test_that("Exact printing, this sould not be tested on CRAN!",
+          {
+            skip_on_cran()
+            set.seed(1)
+            data <- rlnorm(1000, 10, 10)
+            data <- data*c(1, -1)
+            bfd <- benford(data, sign="both", discrete = FALSE)
             print <- capture.output(print(bfd))
             test_print <- c("", "Benford object:", " ", "Data: data ", "Number of observations used = 1000 ", 
                             "Number of obs. for second order = 999 ", "First digits analysed = 2", 
