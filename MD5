@@ -1,10 +1,10 @@
-1a174b30f615647874ca384703cb6fc5 *DESCRIPTION
+8dc32e9dd68ef07504643be2d536e50e *DESCRIPTION
 0e1810dcd574b19da5f838c0c4c15cfd *NAMESPACE
 a7eef1ee598ac0873aa10d115fdea990 *R/data.documentation.R
-8bd2ae5552aa20640e657d964a1e572c *R/functions-new.R
+1f3329bd5ee85f47945b657d39153338 *R/functions-new.R
 d0457f2a373366603c5327067d53685f *R/get.functions.R
-fdbc5c6b3f0ae38addb5f6c4d0b611ae *R/internal.functions-new-code-2.R
-cdcc46c75d26527985e1d674f7a8e7a5 *README.md
+6d1851ab9a59389737907f2d89ed5986 *R/internal.functions-new-code-2.R
+e065dc24dc2d7976dbe6c6977ce52cfd *README.md
 10df432c3be8f5012e69b474d03fc750 *data/census.2000_2010.rda
 2080a3f68ae8019559b4da3feb98f7d6 *data/census.2009.rda
 5db324127c6b9034c344058a7dacb8e2 *data/corporate.payment.rda
@@ -13,8 +13,9 @@ d2ebb0e75f25ef58c40d4aaa1883499e *data/datalist
 fc6b29c8bf262110ddc779266b8ccda5 *data/sino.forest.rda
 2c8af1f451a6c6e4da1dc09159064afc *data/taxable.incomes.1978.rda
 11f096a9de59da67318cc3be843352f1 *man/MAD.Rd
+0979263ec18839c4b48b125b005eda2f *man/MAD.conformity.Rd
 9efdcb7fc5dbb898e775ed65da43ad32 *man/benford.Rd
-697fb36ad91d5523ecf9d9d88794a73a *man/benford.analysis.Rd
+5ae2ce7a2f8b7c6211808c7509d23c79 *man/benford.analysis.Rd
 b5330d610947e8b1b722f00073316064 *man/census.2000_2010.Rd
 1adb253534238ce826cf7ff3a3ffb17f *man/census.2009.Rd
 6e65ebd340a33d7800af8f3004f2386c *man/chisq.Rd
@@ -38,7 +39,7 @@ cfd87f551c4ea0a712b7d337dcfd0956 *man/plot.Benford.Rd
 56875e1afdab84fce64385e03375bfa0 *man/suspectsTable.Rd
 ffc2ba1029942e28ffe81349ffe6025e *man/taxable.incomes.1978.Rd
 d26bbea83cf081b75ad55a3e9412348f *tests/run-all.R
-7620fa0ec5bdb497218d8fa74f8f53a0 *tests/testthat/test-benford.R
+44058c2ebee0e2d3f1c5d17e31270d27 *tests/testthat/test-benford.R
 58126a66b952346603598bc0f386bb89 *tests/testthat/test-digits.R
 b8b80c16daea1a68695455f11a27bb42 *tests/testthat/test-extract.R
 b64806df32486c19383715ab36a3b423 *tests/testthat/test-get.R

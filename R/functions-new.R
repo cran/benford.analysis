@@ -166,6 +166,17 @@ benford <- function(data, number.of.digits = 2, sign = "positive", discrete=TRUE
   ### MAD
   mean.abs.dev <- sum(abs(empirical.distribution$dist - benford.dist)/(length(benford.dist)))
   
+  if (number.of.digits > 3) {
+    MAD.conformity <- NA
+  } else {
+    digits.used <- c("First Digit", "First-Two Digits", "First-Three Digits")[number.of.digits]  
+    MAD.conformity <- MAD.conformity(MAD = mean.abs.dev, digits.used)$conformity
+  }
+  
+  
+    
+  
+  
   ### Summation
   summation <- generate.summation(benford.digits,empirical.distribution$data, empirical.distribution$data.digits)
   abs.excess.summation <- abs(summation - mean(summation))
@@ -227,6 +238,8 @@ benford <- function(data, number.of.digits = 2, sign = "positive", discrete=TRUE
                                                   sk.mantissa = sk.mantissa)),
                  MAD = mean.abs.dev,
                  
+                 MAD.conformity = MAD.conformity,
+                 
                  distortion.factor = distortion.factor,
                  
                  stats = list(chisq = chisq.bfd,
@@ -257,54 +270,71 @@ benford <- function(data, number.of.digits = 2, sign = "positive", discrete=TRUE
 ##' @importFrom stats pchisq var
 ##' @importFrom utils head
 ##' @importFrom stats setNames
-plot.Benford<- function(x, except=c("mantissa","abs diff"), multiple=TRUE ,...){
+plot.Benford <- function(x, except = c("mantissa","abs diff"), multiple = TRUE, ...){
   
-  old.par <- par(no.readonly=TRUE)
+  old.par <- par(no.readonly = TRUE)
   
-  if(class(x)!="Benford") stop("Class(x) must be 'Benford'")
+  if (class(x) != "Benford") stop("Class(x) must be 'Benford'")
   
-  if(!any(except %in% c("digits", "second order", "summation",
-                     "mantissa", "chi squared", "abs diff","none"))) {stop("Invalid except name. Type ?plot.Benford for help.")}
+  except <- tolower(except)
   
-  if(multiple){
+  if (!any(except %in% c("digits", "second order", "summation",
+                     "mantissa", "chi squared", "abs diff","none", "legend"))) {
+    stop("Invalid except name. Type ?plot.Benford for help.")
+    }
+  
+  if (multiple) {
     
     nGraphics <- 8 - length(except)
     
-    if(nGraphics<4){rows=1; cols=nGraphics}
-    if(nGraphics >=4 & nGraphics<=6){rows=2; cols=3}
-    if(nGraphics>6){rows=2; cols=4}
+    if (nGraphics < 4) {
+      rows = 1; 
+      cols = nGraphics
+    }
     
-    par(mfrow=c(rows,cols))
+    if (nGraphics >= 4 & nGraphics <= 6) {
+      rows = 2; 
+      cols = 3
+    }
+    if (nGraphics > 6) {
+      rows = 2; 
+      cols = 4
+    }
+    
+    par(mfrow = c(rows,cols))
   }
   
-  if(all(except!="digits")){
+  if (all(except != "digits")) {
   plotting.data.vs.benford(x, ...)
   }
   
-  if(all(except!="second order")){
+  if (all(except != "second order")) {
   plotting.second.order(x, ...)
   }
   
-  if(all(except!="summation")){
+  if (all(except != "summation")) {
   plotting.summation(x, ...)
   }
   
-  if(all(except!="mantissa")){
+  if (all(except != "mantissa")) {
   plotting.ordered.mantissa(x, ...)
   }
   
-  if(all(except!="chi squared")){
+  if (all(except != "chi squared")) {
   plotting.chi_squared(x, ...)
   }
   
-  if(all(except!="abs diff")){
+  if (all(except != "abs diff")) {
   plotting.abs.diff(x, ...)
   }
   
-  if(all(except!="ex summation")){
+  if (all(except != "ex summation")) {
   plotting.ex.summation(x, ...)
   }
+  
+  if (all(except != "legend")) {
   plotting.legend(x)
+  }
   
   par(old.par)
   
@@ -345,7 +375,9 @@ print.Benford <- function(x,how.many=5,...){
   cat("Stats:\n")
   print(x[["stats"]]$chisq)
   print(x[["stats"]]$mantissa.arc.test)
-  cat("Mean Absolute Deviation:",x[["MAD"]])
+  cat("Mean Absolute Deviation (MAD):",x[["MAD"]])
+  if (!is.na(x[["MAD.conformity"]])) 
+    cat("\nMAD Conformity - Nigrini (2012):", x[["MAD.conformity"]])
   cat("\nDistortion Factor:", x[["distortion.factor"]])
   cat("\n\nRemember: Real data will never conform perfectly to Benford's Law. You should not focus on p-values!")
   values <- NULL

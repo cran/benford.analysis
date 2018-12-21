@@ -51,6 +51,40 @@ chisq.test.bfd <- function(squared.diff, data.name){
   return(chisq.bfd)
 }
 
+
+##' MAD conformity to Benford's Law using the MAD
+##' 
+##' This function checks the MAD agains the confomity criteria proposed by Nigrini (2012).
+##' 
+##' @param MAD The mean absolute deviation, as computed in the function \code{\link{benford}}
+##' @param digits.used How many digits used in the analysis.
+##' 
+##' @return A list with the MAD, digits.used and the conformity level.
+##' 
+##' @references Nigrini, M. J. (2012). Benford's Law: Application for Forensic Accounting, Auditing and Fraud Detection. Wiley and Sons: New Jersey.
+MAD.conformity <- 	function(MAD = NULL,
+                            digits.used = c("First Digit",
+                                            "Second Digit",
+                                            "First-Two Digits",
+                                            "First-Three Digits")){
+  Conformity.Levels <- c("Close conformity", 
+                         "Acceptable conformity", 
+                         "Marginally acceptable conformity", 
+                         "Nonconformity")
+  mad.intervals <- switch(digits.used,
+    "First Digit" = c(0.000, 0.006, 0.012, 0.015),
+    "Second Digit" = c(0.000, 0.008, 0.010, 0.011),
+    "First-Two Digits" = c(0.000, 0.0012, 0.0018, 0.0022),
+    "First-Three Digits" = c(0.000, 0.00036, 0.00044, 0.00050)
+    )
+  
+  conformity <- Conformity.Levels[findInterval(MAD, mad.intervals)]
+  
+  out <- list(MAD = MAD, digits.used = digits.used, conformity = conformity)
+  
+  return(out)
+}
+
 #' @title Extracts the leading digits from the data
 #' @description It extracts the leading digits from the data.
 #' 
